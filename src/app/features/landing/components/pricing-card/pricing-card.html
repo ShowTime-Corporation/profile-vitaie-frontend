@@ -1,0 +1,49 @@
+<div
+  class="relative flex h-full flex-col gap-4 rounded-xl border-2 p-6 md:p-8"
+  [ngClass]="highlight ? 'border-gray-900' : 'border-gray-200'"
+>
+  @if (highlight) {
+    <div
+      class="absolute -top-4 left-1/2 flex -translate-x-1/2 items-center gap-0.5 rounded-full bg-black px-4 py-1 text-sm text-white"
+    >
+      <lucide-icon
+        [img]="Sparkles"
+        class="flex h-6 w-6 items-center justify-center rounded-xl bg-black p-0.5 text-white"
+      ></lucide-icon>
+
+      <span> Most Popular</span>
+    </div>
+  }
+
+  <h3 class="text-xl">{{ title }}</h3>
+  <p class="text-gray-700">{{ subtitle }}</p>
+
+  <div class="">
+    <span class="text-4xl">{{ price }}</span>
+    <span class="text-gray-700"> / {{ billingPeriod }}</span>
+  </div>
+
+  <ul class="flex flex-col gap-2">
+    @for (feature of features; track feature) {
+      <li class="flex items-center gap-2">
+        <lucide-icon
+          [img]="Check"
+          class="flex h-5 w-5 items-center justify-center rounded-xl bg-black p-0.5 text-white"
+        ></lucide-icon>
+        <span class="text-gray-700">
+          {{ feature }}
+        </span>
+      </li>
+    }
+  </ul>
+  <a
+    class="mt-auto flex h-16 items-center justify-center gap-2 rounded-lg px-6 transition-colors hover:cursor-pointer"
+    [ngClass]="
+      highlight
+        ? 'bg-black text-white hover:bg-gray-700'
+        : 'border-2 border-gray-300 bg-white text-gray-700 hover:border-black'
+    "
+  >
+    {{ buttonText }}
+  </a>
+</div>

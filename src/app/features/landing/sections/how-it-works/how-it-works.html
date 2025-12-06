@@ -1,0 +1,35 @@
+<h2 class="text-center text-3xl">How It Works</h2>
+<p class="max-w-xs text-center text-gray-700 md:max-w-xl">
+  From profile creation to career growth in four simple steps
+</p>
+
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+  <app-step-card
+    step="01"
+    [icon]="UserPlus"
+    title="Create Your Profile"
+    paragraph="Sign up and build your professional profile with your experience, skills, and portfolio."
+  >
+  </app-step-card>
+  <app-step-card
+    step="02"
+    [icon]="ScanSearch"
+    title="AI Analysis"
+    paragraph="Our AI analyzes your profile to understand your strengths, gaps, and career potential."
+  >
+  </app-step-card>
+  <app-step-card
+    step="03"
+    [icon]="Map"
+    title="Get Your Roadmap"
+    paragraph="Receive a personalized growth roadmap with actionable steps and learning recommendations."
+  >
+  </app-step-card>
+  <app-step-card
+    step="04"
+    [icon]="Rocket"
+    title="Grow & Apply"
+    paragraph="Follow your roadmap, build your portfolio, and apply to relevant job opportunities."
+  >
+  </app-step-card>
+</div>

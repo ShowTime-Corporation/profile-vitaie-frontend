@@ -1,0 +1,28 @@
+<h2 class="text-center text-3xl text-white">Ready to Transform Your Tech Career?</h2>
+<p class="max-w-xs text-center text-gray-100 md:max-w-xl">
+  Join ProfileVit[AI]e today and let artificial intelligence guide you toward better opportunities
+  and continuous professional growth.
+</p>
+
+<ul class="flex w-full flex-col items-center justify-center gap-4 md:w-auto md:flex-row">
+  <li class="h-12 w-full md:h-16 md:w-auto">
+    <button
+      (click)="modal.openSignupModal()"
+      class="group flex h-full w-full items-center justify-center gap-2 rounded-lg bg-white px-8 transition-colors hover:cursor-pointer hover:bg-gray-200"
+    >
+      <span>Start Your Free Account</span>
+      <lucide-icon
+        [img]="ArrowRight"
+        class="size-6 transition-transform duration-200 group-hover:translate-x-0.5"
+      ></lucide-icon>
+    </button>
+  </li>
+  <li class="h-12 w-full md:h-16 md:w-auto">
+    <a
+      class="flex h-full w-full items-center justify-center gap-2 rounded-lg border-2 border-gray-200 px-8 text-white transition-colors hover:cursor-pointer hover:bg-white hover:text-black"
+    >
+      Do a demo
+    </a>
+  </li>
+</ul>
+<span class="text-center text-gray-400">No credit card required • Free plan available forever</span>
