@@ -1,0 +1,25 @@
+<nav class="sticky top-0 z-10 w-full bg-white py-4 shadow-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6">
+    <a href="#header" class="text-xl font-semibold">ProfileVit[A]Ie</a>
+    <ul class="hidden items-center gap-12 text-gray-700 md:flex">
+      <li><a href="#features" class="transition-colors hover:text-black">Features</a></li>
+      <li><a href="#how-it-works" class="transition-colors hover:text-black">How It Works</a></li>
+      <li><a href="#pricing" class="transition-colors hover:text-black">Pricing</a></li>
+    </ul>
+
+    <div class="flex gap-6">
+      <button
+        class="text-gray-700 transition hover:cursor-pointer hover:text-black"
+        (click)="modal.openLoginModal()"
+      >
+        Log In
+      </button>
+      <button
+        class="rounded-xl bg-black px-5 py-2 text-white transition-all hover:cursor-pointer hover:bg-gray-800"
+        (click)="modal.openSignupModal()"
+      >
+        Sign Up
+      </button>
+    </div>
+  </div>
+</nav>
