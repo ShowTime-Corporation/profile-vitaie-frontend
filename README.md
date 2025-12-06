@@ -21,4 +21,4 @@ This is the frontend part of the ProfileVit[AI]e project, built with:
 
 ## Git Branch
 
-This is the `main` branch of the ProfileVit[AI]e frontend project. It contains the stable, production-ready code for the user interface.
+This is the `develop` branch of the ProfileVit[AI]e frontend project. It contains the latest development code and is used for integrating new features and bug fixes before they are merged into the `main` branch.
