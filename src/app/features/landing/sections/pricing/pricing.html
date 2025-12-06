@@ -1,0 +1,43 @@
+<h2 class="text-center text-3xl">Simple, Transparent Pricing</h2>
+<p class="max-w-xs text-center text-gray-700 md:max-w-xl">
+  Start free and upgrade when you're ready for advanced features
+</p>
+
+<div class="flex w-full flex-col justify-center gap-12 md:flex-row">
+  <app-pricing-card
+    class="w-full"
+    title="Free"
+    subtitle="Perfect for getting started"
+    price="$0"
+    billingPeriod="forever"
+    [features]="[
+      'Basic profile setup',
+      'AI-powered profile analysis',
+      'Basic growth recommendations',
+      'Access to job opportunities',
+      'Community support',
+    ]"
+    buttonText="Get Started"
+  >
+  </app-pricing-card>
+
+  <app-pricing-card
+    class="w-full"
+    title="Premium"
+    subtitle="For serious career growth"
+    price="$19"
+    billingPeriod="per month"
+    [features]="[
+      'Everything in Free',
+      'Advanced AI analysis & insights',
+      'Personalized growth roadmaps',
+      'AI-suggested portfolio projects',
+      'Priority job matching',
+      'Monthly progress reports',
+      'Premium support',
+    ]"
+    buttonText="Upgrade to Premium"
+    [highlight]="true"
+  >
+  </app-pricing-card>
+</div>

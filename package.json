@@ -9,6 +9,9 @@
     "test": "ng test"
   },
   "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
     "printWidth": 100,
     "singleQuote": true,
     "overrides": [
