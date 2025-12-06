@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HeroHighlight } from '../../components/hero-highlight/hero-highlight';
 import { ArrowRight, LucideAngularModule, Sparkles } from 'lucide-angular';
-import { AuthModalService } from '../../../../../../../profile-vitaie-client/src/app/core/services/auth-modal-service';
+import { AuthModalService } from '../../../../core/services/auth-modal-service';
 
 @Component({
   selector: 'app-hero',

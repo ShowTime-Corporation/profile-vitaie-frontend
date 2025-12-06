@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { AuthModalService } from '../../../../../../../profile-vitaie-client/src/app/core/services/auth-modal-service';
 import { ArrowRight, LucideAngularModule } from 'lucide-angular';
+import { AuthModalService } from '../../../../core/services/auth-modal-service';
 
 @Component({
   selector: 'app-cta',
