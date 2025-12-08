@@ -3,16 +3,17 @@
   <!-- Backdrop for the modal. Closes on double-click or Escape key -->
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-    (dblclick)="modal.close()" (keydown.escape)="modal.close()"
+    (dblclick)="modal.close()"
+    (keydown.escape)="modal.close()"
   >
     <!-- The main content of the modal -->
     <div
-      class="relative flex flex-col justify-between z-10 w-fu ll max-w-md rounded-xl bg-white p-8 blur-none"
+      class="w-full relative z-10 flex max-w-md flex-col justify-between rounded-xl bg-white p-8 blur-none"
       (dblclick)="$event.stopPropagation()"
     >
       <!-- Button to close the modal. -->
       <button
-        class="absolute top-4 right-4 bg-black rounded-full p-1 sm:bg-transparent cursor-pointer text-white sm:text-gray-400 transition-colors sm:hover:text-black"
+        class="absolute top-4 right-4 cursor-pointer rounded-full bg-black p-1 text-white transition-colors sm:bg-transparent sm:text-gray-400 sm:hover:text-black"
         (click)="modal.close()"
       >
         <lucide-icon [img]="X" class="h-6 w-6"></lucide-icon>

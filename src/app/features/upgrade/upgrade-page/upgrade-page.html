@@ -1,75 +1,73 @@
-<div class="bg-gray-50">
-  <section class="page-container flex flex-col gap-12 py-24">
-    <div class="flex flex-col items-center justify-center gap-6">
-      <h2 class="flex items-center justify-center gap-2 rounded-2xl bg-black px-4 py-2 text-white">
-        <lucide-icon [img]="Crown" class="h-6 w-6"></lucide-icon>
-        <span>Upgrade to premium</span>
-      </h2>
-      <h1 class="text-center text-lg">Accelerate Your Career Growth</h1>
-      <p class="max-w-xs text-center text-xl text-gray-700 md:max-w-xl">
-        Unlock advanced AI-powered features and personalized career guidance to reach your
-        professional goals faster.
-      </p>
-    </div>
-    <div class="flex justify-center gap-2">
-      <app-upgrade-highlight
-        [icon]="Sparkles"
-        title="AI-Powered Analysis"
-        paragraph="Get deep insights into your career path with advanced AI analysis of your profile and goals."
-      ></app-upgrade-highlight>
+<section class="page-container flex flex-col gap-12 py-24">
+  <div class="flex flex-col items-center justify-center gap-6">
+    <h2 class="flex items-center justify-center gap-2 rounded-2xl bg-black px-4 py-2 text-white">
+      <lucide-icon [img]="Crown" class="h-6 w-6"></lucide-icon>
+      <span>Upgrade to premium</span>
+    </h2>
+    <h1 class="text-center text-lg">Accelerate Your Career Growth</h1>
+    <p class="max-w-xs text-center text-xl text-gray-700 md:max-w-xl">
+      Unlock advanced AI-powered features and personalized career guidance to reach your
+      professional goals faster.
+    </p>
+  </div>
+  <div class="flex justify-center gap-2">
+    <app-upgrade-highlight
+      [icon]="Sparkles"
+      title="AI-Powered Analysis"
+      paragraph="Get deep insights into your career path with advanced AI analysis of your profile and goals."
+    ></app-upgrade-highlight>
 
-      <app-upgrade-highlight
-        [icon]="Target"
-        title="Personalized Roadmap"
-        paragraph="Receive a customized learning path tailored to your experience level and career objectives."
-      ></app-upgrade-highlight>
-      <app-upgrade-highlight
-        [icon]="TrendingUp"
-        title="Priority Job Matching"
-        paragraph="Get matched with premium opportunities and connect directly with top companies."
-      ></app-upgrade-highlight>
-    </div>
-    <div
-      class="section-stack flex flex-col items-center justify-center gap-8 bg-gray-50 p-4 lg:flex-row"
-    >
-      <app-upgrade-card
-        [title]="'Free'"
-        [price]="'$0'"
-        [billingPeriod]="'/month'"
-        [paragraph]="'Get started with basic career development tools'"
-        [features]="[
-          'Basic profile analysis',
-          'Standard career roadmap',
-          'Access to a job board',
-          'Basic skill tracking',
-          'Community support',
-        ]"
-        [buttonText]="'Current Plan'"
-        [isCurrentPlan]="authService.currentUser()?.role == 'FREE'"
-      ></app-upgrade-card>
+    <app-upgrade-highlight
+      [icon]="Target"
+      title="Personalized Roadmap"
+      paragraph="Receive a customized learning path tailored to your experience level and career objectives."
+    ></app-upgrade-highlight>
+    <app-upgrade-highlight
+      [icon]="TrendingUp"
+      title="Priority Job Matching"
+      paragraph="Get matched with premium opportunities and connect directly with top companies."
+    ></app-upgrade-highlight>
+  </div>
+  <div
+    class="section-stack flex flex-col items-center justify-center gap-8 bg-gray-50 p-4 lg:flex-row"
+  >
+    <app-upgrade-card
+      [title]="'Free'"
+      [price]="'$0'"
+      [billingPeriod]="'/month'"
+      [paragraph]="'Get started with basic career development tools'"
+      [features]="[
+        'Basic profile analysis',
+        'Standard career roadmap',
+        'Access to a job board',
+        'Basic skill tracking',
+        'Community support',
+      ]"
+      [buttonText]="'Current Plan'"
+      [isCurrentPlan]="authService.currentUser()?.role == 'FREE'"
+    ></app-upgrade-card>
 
-      <app-upgrade-card
-        [title]="'Premium'"
-        [price]="'$29'"
-        [billingPeriod]="'/month'"
-        [paragraph]="'Everything you need to advance your tech career'"
-        [features]="[
-          'Advanced AI profile analysis',
-          'Personalized career roadmap',
-          'Priority job matching',
-          'Premium job listings',
-          'Skill gap analysis',
-          'Custom project suggestions',
-          'Interview preparation',
-          'Resume optimization',
-          'Direct messaging with recruiters',
-          'Monthly career coaching session',
-          'Premium support',
-        ]"
-        [buttonText]="'Upgrade to Premium'"
-        [highlight]="true"
-        [isCurrentPlan]="authService.currentUser()?.role == 'PREMIUM'"
-      ></app-upgrade-card>
-    </div>
-  </section>
-</div>
+    <app-upgrade-card
+      [title]="'Premium'"
+      [price]="'$29'"
+      [billingPeriod]="'/month'"
+      [paragraph]="'Everything you need to advance your tech career'"
+      [features]="[
+        'Advanced AI profile analysis',
+        'Personalized career roadmap',
+        'Priority job matching',
+        'Premium job listings',
+        'Skill gap analysis',
+        'Custom project suggestions',
+        'Interview preparation',
+        'Resume optimization',
+        'Direct messaging with recruiters',
+        'Monthly career coaching session',
+        'Premium support',
+      ]"
+      [buttonText]="'Upgrade to Premium'"
+      [highlight]="true"
+      [isCurrentPlan]="authService.currentUser()?.role == 'PREMIUM'"
+    ></app-upgrade-card>
+  </div>
+</section>
