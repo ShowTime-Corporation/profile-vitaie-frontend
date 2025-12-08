@@ -1,0 +1,11 @@
+<section class="page-container grid grid-cols-1 lg:grid-cols-2 gap-5 py-12">
+  @if (employability) {
+    <app-content-card title="Tech Offer" content="{{employability?.employabilityTechOffer}}"></app-content-card>
+    <app-content-card title="Education Offer" content="{{employability?.employabilityEducationOffer}}"></app-content-card>
+    <app-content-card title="Company Offer" content="{{employability.employabilityCompanyOffer}}"></app-content-card>
+  } @else {
+    <div class="p-8 bg-white rounded-xl border border-gray-200 w-full shadow-md text-center col-start-1 col-end-3">
+      <h2 class="text-gray-700">No employability generated yet, <a class="font-semibold cursor-pointer">Click here to generate one.</a></h2>
+    </div>
+  }
+</section>
