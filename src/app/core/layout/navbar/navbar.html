@@ -6,6 +6,10 @@
       @if (auth.currentUser()) {
         <!-- Dashboard link for authenticated users -->
         <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Dashboard </a>
+        <a class="transition-colors hover:text-black" [routerLink]="['/roadmap']"> Roadmap </a>
+        <a class="transition-colors hover:text-black" [routerLink]="['/resume']"> Resume </a>
+        <a class="transition-colors hover:text-black" [routerLink]="['/employability']"> Employability </a>
+
         @if (auth.currentUser()?.role === 'ADMIN') {
           <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Users </a>
         }
@@ -24,7 +28,7 @@
         <div class="relative">
           <button
             (click)="toggleDropdown()"
-            class="flex items-center w-48 px-4 gap-2 rounded-md p-1 hover:bg-gray-100 focus:outline-none active:bg-gray-200"
+            class="flex w-52 items-center gap-2 rounded-md p-1 px-4 hover:bg-gray-100 focus:outline-none active:bg-gray-200"
           >
             <!-- User avatar/initials -->
             <div class="rounded-full bg-gray-400 p-1 text-center">
@@ -41,7 +45,7 @@
           @if (showDropdown) {
             <!-- Dropdown content -->
             <div
-              class="ring-opacity-5 absolute right-0 border-1 border-gray-200 border-t-white w-48 rounded-md rounded-t-none bg-white shadow-md ring-1 ring-transparent focus:outline-none"
+              class="ring-opacity-5 absolute right-0 w-52 rounded-md rounded-t-none border-1 border-gray-200 border-t-white bg-white shadow-md ring-1 ring-transparent focus:outline-none"
             >
               <div
                 class="py-1"
@@ -53,28 +57,18 @@
                 <a
                   [routerLink]="['/edit-profile']"
                   (click)="toggleDropdown()"
-                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                  class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
                   role="menuitem"
                 >
                   <lucide-icon [img]="User"></lucide-icon>
                   <span> Edit Profile </span>
-                </a>
-                <!-- Settings button -->
-                <a
-                  [routerLink]="['/settings']"
-                  (click)="toggleDropdown()"
-                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
-                  role="menuitem"
-                >
-                  <lucide-icon [img]="Settings"></lucide-icon>
-                  <span> Settings </span>
                 </a>
                 @if (auth.currentUser()?.role === 'FREE') {
                   <!-- Get premium button -->
                   <a
                     [routerLink]="['/upgrade']"
                     (click)="toggleDropdown()"
-                    class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
                     role="menuitem"
                   >
                     <lucide-icon [img]="Crown"></lucide-icon>
@@ -84,7 +78,7 @@
                 <!-- Logout button -->
                 <button
                   (click)="auth.logout()"
-                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                  class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
                   role="menuitem"
                 >
                   <lucide-icon [img]="LogOut"></lucide-icon>

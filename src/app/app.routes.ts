@@ -5,8 +5,10 @@ import { authGuard } from './core/guards/auth-guard';
 import { Empty } from './core/empty/empty';
 import { rootRedirectGuard } from './core/guards/root-redirect-guard';
 import { EditProfilePage } from './features/edit-profile/edit-profile-page/edit-profile-page';
-import { SettingsPage } from './features/settings/settings-page/settings-page';
 import { UpgradePage } from './features/upgrade/upgrade-page/upgrade-page';
+import { ResumePage } from './features/resume/resume-page/resume-page';
+import { EmployabilityPage } from './features/employability/employability-page/employability-page';
+import { RoadmapPage } from './features/roadmap/roadmap-page/roadmap-page';
 
 export const routes: Routes = [
   {
@@ -24,13 +26,23 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'edit-profile',
-    component: EditProfilePage,
+    path: 'roadmap',
+    component: RoadmapPage,
     canActivate: [authGuard],
   },
   {
-    path: 'settings',
-    component: SettingsPage,
+    path: 'resume',
+    component: ResumePage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'employability',
+    component: EmployabilityPage,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'edit-profile',
+    component: EditProfilePage,
     canActivate: [authGuard],
   },
   {
