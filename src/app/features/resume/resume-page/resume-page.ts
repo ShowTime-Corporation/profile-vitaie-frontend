@@ -14,7 +14,10 @@ export class ResumePage {
   authService = inject(AuthService);
   resumeService = inject(ResumeService);
 
-  // resume interface
+  // Get logged user
+  user = this.authService.currentUser;
+
+  // Resume interface
   resume?: Resume;
 
   // Fetch resume data

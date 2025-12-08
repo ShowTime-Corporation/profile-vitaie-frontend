@@ -14,6 +14,9 @@ export class RoadmapPage {
   authService = inject(AuthService);
   roadmapService = inject(RoadmapService);
 
+  // Get logged user
+  user = this.authService.currentUser;
+
   // Roadmap interface
   roadmap?: Roadmap;
 

@@ -15,7 +15,10 @@ export class EmployabilityPage {
   authService = inject(AuthService);
   employabilityService = inject(EmployabilityService);
 
-  // resume interface
+  // Get logged user
+  user = this.authService.currentUser;
+
+  // Employability interface
   employability?: Employability;
 
   // Fetch resume data
