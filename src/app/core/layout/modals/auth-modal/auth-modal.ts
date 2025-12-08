@@ -1,7 +1,13 @@
 import { Component, inject, Renderer2, effect } from '@angular/core';
-import { AuthModalService } from '../../../services/auth-modal-service';
-import { LucideAngularModule, User, Mail, Lock, X, ArrowRight } from 'lucide-angular';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LucideAngularModule, User, Mail, Lock, X, ArrowRight } from 'lucide-angular';
+
+import { AuthModalService } from '../../../services/auth-modal-service';
+import { AuthService } from '../../../services/auth-service';
+
+import { RegisterRequest } from '../../../interfaces/register-request';
+import { LoginRequest } from '../../../interfaces/login-request';
 
 @Component({
   selector: 'app-auth-modal',
@@ -9,10 +15,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   templateUrl: './auth-modal.html',
 })
 export class AuthModal {
-  // Inject services
   protected modal = inject(AuthModalService);
   private renderer = inject(Renderer2);
   private fb = inject(FormBuilder);
+  private auth = inject(AuthService);
+  private router = inject(Router);
 
   // Log in form
   loginForm = this.fb.group({
@@ -28,49 +35,81 @@ export class AuthModal {
     password: ['', Validators.required],
   });
 
-  // Constructor
+  // Error and loading states
+  loginError: string | null = null;
+  signupError: string | null = null;
+  isSigningUp = false;
+
+  // Handle scrolling allowed or not
   constructor() {
-    // Add or remove 'overflow-hidden' class to body when modal opens/closes
     effect(() => {
-      if (this.modal.isOpen()) {
-        this.addBodyNoScrollClass();
-      } else {
-        this.removeBodyNoScrollClass();
+      const isOpen = this.modal.isOpen();
+      this.toggleBodyScroll(isOpen);
+
+      if (!isOpen) {
+        this.loginForm.reset();
+        this.signupForm.reset();
       }
     });
   }
 
-  // Handle login form submission
+  // Sign up method
   onSubmitLogin() {
-    if (this.loginForm.valid) {
-      console.log('Login form submitted:', this.loginForm.value);
-      // Authentication service
-      this.modal.close();
-    }
+    this.loginError = null;
+
+    if (!this.loginForm.valid) return;
+
+    const request = this.loginForm.value as LoginRequest;
+
+    this.auth.login(request).subscribe({
+      next: () => {
+        this.closeAndGoDashboard();
+      },
+      error: () => {
+        this.loginError = 'Login failed. Please check your email and password.';
+      },
+    });
   }
 
-  // Handle signup form submission
+  // Sign up method
   onSubmitSignup() {
-    if (this.signupForm.valid) {
-      console.log('Signup form submitted:', this.signupForm.value);
-      // Authentication service
-      this.modal.close();
-    }
+    this.signupError = null;
+
+    if (!this.signupForm.valid) return;
+
+    this.isSigningUp = true;
+    const request = this.signupForm.value as RegisterRequest;
+
+    this.auth.register(request).subscribe({
+      next: () => {
+        this.isSigningUp = false;
+        this.closeAndGoDashboard();
+      },
+      error: (error) => {
+        this.isSigningUp = false;
+        this.signupError =
+          error.status === 409
+            ? 'This email is already registered. Try logging in.'
+            : 'An unexpected error occurred. Please try again.';
+      },
+    });
   }
 
-  // Prevent scrolling on the body when the modal is open
-  private addBodyNoScrollClass(): void {
-    this.renderer.addClass(document.body, 'overflow-hidden');
+  // Close modal and navigate to dashboard when login is successful
+  private closeAndGoDashboard() {
+    this.modal.close();
+    this.router.navigate(['/dashboard']);
   }
 
-  // Allow scrolling on the body when the modal is closed, and reset the forms fields
-  private removeBodyNoScrollClass(): void {
-    this.loginForm.reset();
-    this.signupForm.reset();
-    this.renderer.removeClass(document.body, 'overflow-hidden');
+  // Toggle scrolling
+  private toggleBodyScroll(enable: boolean) {
+    const cls = 'overflow-hidden';
+    enable
+      ? this.renderer.addClass(document.body, cls)
+      : this.renderer.removeClass(document.body, cls);
   }
 
-  // Icons
+  // Lucide icons
   User = User;
   Mail = Mail;
   Lock = Lock;
