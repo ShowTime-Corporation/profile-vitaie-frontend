@@ -1,25 +1,115 @@
 <nav class="sticky top-0 z-10 w-full bg-white py-4 shadow-md">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6">
-    <a href="#header" class="text-xl font-semibold">ProfileVit[A]Ie</a>
+    <!-- Brand logo/link -->
+    <a [routerLink]="['/']" class="text-xl font-semibold">ProfileVit[A]Ie</a>
     <ul class="hidden items-center gap-12 text-gray-700 md:flex">
-      <li><a href="#features" class="transition-colors hover:text-black">Features</a></li>
-      <li><a href="#how-it-works" class="transition-colors hover:text-black">How It Works</a></li>
-      <li><a href="#pricing" class="transition-colors hover:text-black">Pricing</a></li>
+      @if (auth.currentUser()) {
+        <!-- Dashboard link for authenticated users -->
+        <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Dashboard </a>
+        @if (auth.currentUser()?.role === 'ADMIN') {
+          <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Users </a>
+        }
+      } @else {
+        <!-- Public navigation links -->
+        <li><a href="#features" class="transition-colors hover:text-black">Features</a></li>
+        <li><a href="#how-it-works" class="transition-colors hover:text-black">How It Works</a></li>
+        <li><a href="#pricing" class="transition-colors hover:text-black">Pricing</a></li>
+      }
     </ul>
 
     <div class="flex gap-6">
-      <button
-        class="text-gray-700 transition hover:cursor-pointer hover:text-black"
-        (click)="modal.openLoginModal()"
-      >
-        Log In
-      </button>
-      <button
-        class="rounded-xl bg-black px-5 py-2 text-white transition-all hover:cursor-pointer hover:bg-gray-800"
-        (click)="modal.openSignupModal()"
-      >
-        Sign Up
-      </button>
+      <!-- User logged in -->
+      @if (auth.currentUser()) {
+        <!-- User dropdown menu for authenticated users -->
+        <div class="relative">
+          <button
+            (click)="toggleDropdown()"
+            class="flex items-center w-48 px-4 gap-2 rounded-md p-1 hover:bg-gray-100 focus:outline-none active:bg-gray-200"
+          >
+            <!-- User avatar/initials -->
+            <div class="rounded-full bg-gray-400 p-1 text-center">
+              <span class="text-gray-200 text-shadow-md"
+                >{{ auth.currentUser()?.firstName | slice: 0 : 1 | uppercase
+                }}{{ auth.currentUser()?.lastName | slice: 0 : 1 | uppercase }}</span
+              >
+            </div>
+            <!-- User's full name -->
+            <span class="text-gray-700"
+              >{{ auth.currentUser()?.firstName }} {{ auth.currentUser()?.lastName }}</span
+            >
+          </button>
+          @if (showDropdown) {
+            <!-- Dropdown content -->
+            <div
+              class="ring-opacity-5 absolute right-0 border-1 border-gray-200 border-t-white w-48 rounded-md rounded-t-none bg-white shadow-md ring-1 ring-transparent focus:outline-none"
+            >
+              <div
+                class="py-1"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="options-menu"
+              >
+                <!-- Edit profile button -->
+                <a
+                  [routerLink]="['/edit-profile']"
+                  (click)="toggleDropdown()"
+                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                  role="menuitem"
+                >
+                  <lucide-icon [img]="User"></lucide-icon>
+                  <span> Edit Profile </span>
+                </a>
+                <!-- Settings button -->
+                <a
+                  [routerLink]="['/settings']"
+                  (click)="toggleDropdown()"
+                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                  role="menuitem"
+                >
+                  <lucide-icon [img]="Settings"></lucide-icon>
+                  <span> Settings </span>
+                </a>
+                @if (auth.currentUser()?.role === 'FREE') {
+                  <!-- Get premium button -->
+                  <a
+                    [routerLink]="['/upgrade']"
+                    (click)="toggleDropdown()"
+                    class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    role="menuitem"
+                  >
+                    <lucide-icon [img]="Crown"></lucide-icon>
+                    <span> Update to premium </span>
+                  </a>
+                }
+                <!-- Logout button -->
+                <button
+                  (click)="auth.logout()"
+                  class="flex items-center gap-2 w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                  role="menuitem"
+                >
+                  <lucide-icon [img]="LogOut"></lucide-icon>
+                  <span> Log out </span>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- Login button for unauthenticated users -->
+        <button
+          class="text-gray-700 transition hover:cursor-pointer hover:text-black"
+          (click)="modal.openLoginModal()"
+        >
+          Log In
+        </button>
+        <!-- Sign Up button for unauthenticated users -->
+        <button
+          class="rounded-xl bg-black px-5 py-2 text-white transition-all hover:cursor-pointer hover:bg-gray-800"
+          (click)="modal.openSignupModal()"
+        >
+          Sign Up
+        </button>
+      }
     </div>
   </div>
 </nav>
