@@ -1,5 +1,5 @@
 <nav class="sticky top-0 z-10 w-full bg-white py-4 shadow-md">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-6">
+  <div class="page-container flex items-center justify-between">
     <!-- Brand logo/link -->
     <a [routerLink]="['/']" class="text-xl font-semibold">ProfileVit[A]Ie</a>
     <ul class="hidden items-center gap-12 text-gray-700 md:flex">
@@ -8,7 +8,9 @@
         <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Dashboard </a>
         <a class="transition-colors hover:text-black" [routerLink]="['/roadmap']"> Roadmap </a>
         <a class="transition-colors hover:text-black" [routerLink]="['/resume']"> Resume </a>
-        <a class="transition-colors hover:text-black" [routerLink]="['/employability']"> Employability </a>
+        <a class="transition-colors hover:text-black" [routerLink]="['/employability']">
+          Employability
+        </a>
 
         @if (auth.currentUser()?.role === 'ADMIN') {
           <a class="transition-colors hover:text-black" [routerLink]="['/dashboard']"> Users </a>
@@ -53,6 +55,52 @@
                 aria-orientation="vertical"
                 aria-labelledby="options-menu"
               >
+                <!-- Links for small screens -->
+                <div class="md:hidden">
+                  <a
+                    [routerLink]="['/dashboard']"
+                    (click)="toggleDropdown()"
+                    class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    role="menuitem"
+                  >
+                    <span> Dashboard </span>
+                  </a>
+                  <a
+                    [routerLink]="['/roadmap']"
+                    (click)="toggleDropdown()"
+                    class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    role="menuitem"
+                  >
+                    <span> Roadmap </span>
+                  </a>
+                  <a
+                    [routerLink]="['/resume']"
+                    (click)="toggleDropdown()"
+                    class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    role="menuitem"
+                  >
+                    <span> Resume </span>
+                  </a>
+                  <a
+                    [routerLink]="['/employability']"
+                    (click)="toggleDropdown()"
+                    class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                    role="menuitem"
+                  >
+                    <span> Employability </span>
+                  </a>
+                  @if (auth.currentUser()?.role === 'ADMIN') {
+                    <a
+                      [routerLink]="['/dashboard']"
+                      (click)="toggleDropdown()"
+                      class="flex w-full items-center gap-2 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200"
+                      role="menuitem"
+                    >
+                      <span> Users </span>
+                    </a>
+                  }
+                  <div class="my-1 border-t border-gray-200"></div>
+                </div>
                 <!-- Edit profile button -->
                 <a
                   [routerLink]="['/edit-profile']"
