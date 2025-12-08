@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
@@ -6,6 +6,7 @@ import { AuthResponse } from '../interfaces/auth-response';
 import { RegisterRequest } from '../interfaces/register-request';
 import { LoginRequest } from '../interfaces/login-request';
 import { User } from '../interfaces/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,11 @@ export class AuthService {
   // The current user's information.
   currentUser = signal<User | null>(null);
 
-  // Inject the HttpClient to make HTTP requests.
-  constructor(private http: HttpClient) {
+  // Inject the HttpClient to make HTTP requests, and router to redirect
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
+  constructor() {
     const token = this.getToken();
     if (token) {
       // If a token exists, decode it to get user info
@@ -84,5 +88,6 @@ export class AuthService {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
     this.currentUser.set(null);
+    this.router.navigate(['/landing']);
   }
 }
