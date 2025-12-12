@@ -1,0 +1,38 @@
+<!-- Main container for the authentication modal -->
+@if (modal.isOpen()) {
+  <!-- Backdrop for the modal. Closes on double-click -->
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    (dblclick)="modal.closeModal()"
+  >
+    <!-- The main content of the modal -->
+    <div
+      class="relative z-10 flex w-full max-w-2xl flex-col justify-between rounded-xl bg-white p-8 blur-none"
+      (dblclick)="$event.stopPropagation()"
+    >
+      <!-- Button to close the modal. -->
+      <button
+        class="absolute top-4 right-4 cursor-pointer rounded-full bg-black p-1 text-white transition-colors sm:bg-transparent sm:text-gray-400 sm:hover:text-black"
+        (click)="modal.closeModal()"
+      >
+        <lucide-icon [img]="X" class="h-6 w-6"></lucide-icon>
+      </button>
+      <!-- Header with title -->
+      <div class="flex flex-col gap-8">
+        <div>
+        <h2 class="text-3xl">{{ title }}</h2>
+        <p class="text-xl text-gray-700">
+          {{ subtitle }}
+        </p>
+        </div>
+        <p class="text-gray-700">
+          {{ body }}
+        </p>
+      </div>
+      <div class="flex justify-between mt-8">
+        <img class="w-auto h-16" ngSrc="assets/brand-logo.webp" alt="SHOWTIME Corp. brand logo" height="128" width="128">
+        <img class="w-auto h-16" ngSrc="assets/riwi-logo.webp" alt="Riwi logo" height="128" width="455">
+      </div>
+    </div>
+  </div>
+}
