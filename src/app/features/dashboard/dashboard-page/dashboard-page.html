@@ -1,21 +1,21 @@
-<div class="flex flex-col gap-6 bg-gray-50 py-12">
+<section class="page-container flex flex-col gap-6 py-12">
   @if (user()) {
-    <div class="page-container px-0">
-      <h1 class="text-2xl font-semibold ">
+    <div class="text-center md:text-left">
+      <h1 class="text-2xl font-semibold">
         Welcome, {{ user()?.firstName }} {{ user()?.lastName }}
       </h1>
       <p class="text-gray-700">Here's your professional growth overview</p>
     </div>
 
-    <div class="page-container flex flex-col gap-6 rounded-xl border border-gray-200 bg-white p-8">
-      <div>
-        <div class="flex items-center justify-between">
+    <div class="flex flex-col gap-6 rounded-xl border border-gray-200 bg-white p-8 shadow-md">
+      <div class="flex justify-between">
+        <div>
           <h3 class="text-xl">Profile Overview</h3>
-          <a class="cursor-pointer rounded p-2 hover:bg-gray-100">
-            <lucide-icon [img]="Edit" class="h-8 w-8 text-gray-700"></lucide-icon>
-          </a>
+          <span class="text-gray-700">Your professional information</span>
         </div>
-        <span class="text-gray-700">Your professional information</span>
+        <a class="cursor-pointer rounded p-2 hover:bg-gray-100">
+          <lucide-icon [img]="Edit" class="h-8 w-8 text-gray-700"></lucide-icon>
+        </a>
       </div>
       <div class="flex gap-4 text-gray-700">
         <div class="flex items-center justify-center rounded-lg bg-black p-6 text-center">
@@ -44,8 +44,5 @@
         </div>
       </div>
     </div>
-    <div class="flex h-256 items-center justify-center">
-      <span>TEMPORAL CONTENT</span>
-    </div>
   }
-</div>
+</section>
