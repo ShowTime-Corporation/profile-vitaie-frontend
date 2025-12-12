@@ -15,8 +15,8 @@
           <ul class="flex flex-col gap-2">
             @for (link of section.links; track link) {
               <a
-                (click)="modal.openModal(link.contentKey)"
-                class="text-sm text-gray-600 transition-colors hover:text-gray-900"
+                [href]="link.url"
+                class="text-sm text-gray-600 transition-colors hover:text-gray-900 cursor-pointer"
               >
                 {{ link.label }}
               </a>

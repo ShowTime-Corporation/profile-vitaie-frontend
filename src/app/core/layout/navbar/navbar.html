@@ -17,9 +17,30 @@
         }
       } @else {
         <!-- Public navigation links -->
-        <li><a href="#features" class="transition-colors hover:text-black">Features</a></li>
-        <li><a href="#how-it-works" class="transition-colors hover:text-black">How It Works</a></li>
-        <li><a href="#pricing" class="transition-colors hover:text-black">Pricing</a></li>
+        <li>
+          <a
+            routerLink="/landing"
+            fragment="features"
+            class="transition-colors hover:text-black"
+            >Features</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/landing"
+            fragment="how-it-works"
+            class="transition-colors hover:text-black"
+            >How It Works</a
+          >
+        </li>
+        <li>
+          <a
+            routerLink="/landing"
+            fragment="pricing"
+            class="transition-colors hover:text-black"
+            >Pricing</a
+          >
+        </li>
       }
     </ul>
 
