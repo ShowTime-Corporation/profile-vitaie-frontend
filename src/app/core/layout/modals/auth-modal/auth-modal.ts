@@ -1,17 +1,26 @@
 import { Component, inject, Renderer2, effect } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LucideAngularModule, User, Mail, Lock, X, ArrowRight } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  User,
+  Mail,
+  Lock,
+  X,
+  ArrowRight,
+} from 'lucide-angular';
 
 import { AuthModalService } from '../../../services/auth-modal-service';
 import { AuthService } from '../../../services/auth-service';
+import { ToastService } from '../../../services/toast-service';
 
 import { RegisterRequest } from '../../../interfaces/register-request';
 import { LoginRequest } from '../../../interfaces/login-request';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-auth-modal',
-  imports: [LucideAngularModule, ReactiveFormsModule],
+  imports: [LucideAngularModule, ReactiveFormsModule, NgClass],
   templateUrl: './auth-modal.html',
 })
 export class AuthModal {
@@ -20,6 +29,7 @@ export class AuthModal {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
   private router = inject(Router);
+  private toast = inject(ToastService);
 
   // Log in form
   loginForm = this.fb.group({
@@ -57,16 +67,21 @@ export class AuthModal {
   onSubmitLogin() {
     this.loginError = null;
 
-    if (!this.loginForm.valid) return;
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
     const request = this.loginForm.value as LoginRequest;
 
     this.auth.login(request).subscribe({
       next: () => {
+        this.toast.show('Logged in successfully!', 'success');
         this.closeAndGoDashboard();
       },
       error: () => {
         this.loginError = 'Login failed. Please check your email and password.';
+        this.toast.show('Login failed', 'error');
       },
     });
   }
@@ -75,15 +90,32 @@ export class AuthModal {
   onSubmitSignup() {
     this.signupError = null;
 
-    if (!this.signupForm.valid) return;
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
+      return;
+    }
 
     this.isSigningUp = true;
     const request = this.signupForm.value as RegisterRequest;
 
     this.auth.register(request).subscribe({
       next: () => {
-        this.isSigningUp = false;
-        this.closeAndGoDashboard();
+        const loginRequest: LoginRequest = {
+          email: this.signupForm.value.email!,
+          password: this.signupForm.value.password!,
+        };
+        this.auth.login(loginRequest).subscribe({
+          next: () => {
+            this.isSigningUp = false;
+            this.toast.show('Registered & logged in successfully!', 'success');
+            this.closeAndGoDashboard();
+          },
+          error: () => {
+            this.isSigningUp = false;
+            this.toast.show('Registration successful. Please log in manually.', 'success');
+            this.modal.close();
+          },
+        });
       },
       error: (error) => {
         this.isSigningUp = false;
@@ -91,6 +123,7 @@ export class AuthModal {
           error.status === 409
             ? 'This email is already registered. Try logging in.'
             : 'An unexpected error occurred. Please try again.';
+        this.toast.show(this.signupError, 'error');
       },
     });
   }
@@ -101,8 +134,7 @@ export class AuthModal {
     this.router.navigate(['/dashboard']);
   }
 
-  // Toggle scrolling
-  private toggleBodyScroll(enable: boolean) {
+  toggleBodyScroll(enable: boolean) {
     const cls = 'overflow-hidden';
     enable
       ? this.renderer.addClass(document.body, cls)
