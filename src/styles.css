@@ -13,4 +13,19 @@
   .section-divider {
     @apply w-full border-b border-black/10 border-[0.5px] sm:border-[1px];
   }
+
+  @keyframes modal-in {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1.02);
+      opacity: 1;
+    }
+  }
+
+  .animate-modal-in {
+    animation: modal-in 300ms ease-out forwards;
+  }
 }

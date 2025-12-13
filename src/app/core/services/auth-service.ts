@@ -36,16 +36,10 @@ export class AuthService {
   }
 
   // The register method sends user registration data to the server.
-  register(request: RegisterRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.REGISTER_URL}`, request).pipe(
-      tap((response) => {
-        if (response.token) {
-          this.setToken(response.token);
-          const decodedUser: User = jwtDecode(response.token);
-          this.setCurrentUser(decodedUser);
-        }
-      }),
-    );
+  register(request: RegisterRequest): Observable<any> {
+    return this.http.post(`${this.REGISTER_URL}`, request, {
+      responseType: 'text',
+    });
   }
 
   // The login method sends user credentials to the server to obtain a JWT.

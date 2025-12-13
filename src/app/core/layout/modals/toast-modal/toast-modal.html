@@ -1,0 +1,31 @@
+@if (toastService.toast()) {
+  <div
+    class="
+    flex gap-2
+    bg-gradient-to-br
+    from-gray-950
+    to-gray-900
+      fixed top-24 left-1/2 -translate-x-1/2
+      px-6 py-4
+      rounded-xl
+      shadow-xl
+      backdrop-blur
+      text-white text-lg font-medium
+      transition-all duration-300 ease-out
+      z-50
+    "
+    [ngClass]="{
+      'translate-y-0': visible(),
+      '-translate-y-full': !visible(),
+      'opacity-100': visible(),
+      'opacity-0': !visible()
+    }"
+  >
+    @if (toastService.toast()?.type === 'success') {
+      <lucide-icon [img]="Check"></lucide-icon>
+    } @else if (toastService.toast()?.type === 'error') {
+      <lucide-icon [img]="X"></lucide-icon>
+    }
+    {{ toastService.toast()?.message }}
+  </div>
+}
