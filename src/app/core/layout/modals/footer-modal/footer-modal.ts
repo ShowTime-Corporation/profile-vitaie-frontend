@@ -1,11 +1,11 @@
 import { Component, effect, inject, Renderer2 } from '@angular/core';
 import { FooterModalService } from '../../../services/footer-modal-service';
 import { Info, LucideAngularModule, X } from 'lucide-angular';
-import { NgOptimizedImage } from '@angular/common';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-footer-modal',
-  imports: [LucideAngularModule, NgOptimizedImage],
+  imports: [LucideAngularModule, NgOptimizedImage, NgClass],
   templateUrl: './footer-modal.html',
 })
 export class FooterModal {
