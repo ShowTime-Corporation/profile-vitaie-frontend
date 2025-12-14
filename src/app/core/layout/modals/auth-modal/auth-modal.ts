@@ -1,14 +1,7 @@
 import { Component, inject, Renderer2, effect } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  LucideAngularModule,
-  User,
-  Mail,
-  Lock,
-  X,
-  ArrowRight,
-} from 'lucide-angular';
+import { LucideAngularModule, User, Mail, Lock, X, ArrowRight } from 'lucide-angular';
 
 import { AuthModalService } from '../../../services/auth-modal-service';
 import { AuthService } from '../../../services/auth-service';

@@ -1,24 +1,11 @@
 @if (toastService.toast()) {
   <div
-    class="
-    flex gap-2
-    bg-gradient-to-br
-    from-gray-950
-    to-gray-900
-      fixed top-24 left-1/2 -translate-x-1/2
-      px-6 py-4
-      rounded-xl
-      shadow-xl
-      backdrop-blur
-      text-white text-lg font-medium
-      transition-all duration-300 ease-out
-      z-50
-    "
+    class="fixed top-24 left-1/2 z-50 flex -translate-x-1/2 gap-2 rounded-xl bg-gradient-to-br from-gray-950 to-gray-900 px-6 py-4 text-lg font-medium text-white shadow-xl backdrop-blur transition-all duration-300 ease-out"
     [ngClass]="{
       'translate-y-0': visible(),
       '-translate-y-full': !visible(),
       'opacity-100': visible(),
-      'opacity-0': !visible()
+      'opacity-0': !visible(),
     }"
   >
     @if (toastService.toast()?.type === 'success') {

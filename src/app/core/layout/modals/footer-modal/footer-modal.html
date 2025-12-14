@@ -7,16 +7,11 @@
   >
     <!-- The main content of the modal -->
     <div
-      class="
-        relative z-10 flex w-full max-w-2xl flex-col justify-between
-        rounded-xl bg-white p-8
-        transform transition-all duration-300 ease-out opacity-0
-        animate-modal-in
-      "
+      class="animate-modal-in relative z-10 flex w-full max-w-2xl transform flex-col justify-between rounded-xl bg-white p-8 opacity-0 transition-all duration-300 ease-out"
       (dblclick)="$event.stopPropagation()"
       [ngClass]="{
-        'scale-100 opacity-100 duration-300 translate-y-0': !modal.isClosing(),
-        'scale-85 opacity-0 duration-200 -translate-y-2': modal.isClosing(),
+        'translate-y-0 scale-100 opacity-100 duration-300': !modal.isClosing(),
+        '-translate-y-2 scale-85 opacity-0 duration-200': modal.isClosing(),
       }"
     >
       <!-- Button to close the modal. -->
@@ -29,18 +24,30 @@
       <!-- Header with title -->
       <div class="flex flex-col gap-8">
         <div>
-        <h2 class="text-3xl">{{ title }}</h2>
-        <p class="text-xl text-gray-700">
-          {{ subtitle }}
-        </p>
+          <h2 class="text-3xl">{{ title }}</h2>
+          <p class="text-xl text-gray-700">
+            {{ subtitle }}
+          </p>
         </div>
         <p class="text-gray-700">
           {{ body }}
         </p>
       </div>
-      <div class="flex justify-between mt-8">
-        <img class="w-auto h-16" ngSrc="assets/brand-logo.webp" alt="SHOWTIME Corp. brand logo" height="128" width="128">
-        <img class="w-auto h-16" ngSrc="assets/riwi-logo.webp" alt="Riwi logo" height="128" width="455">
+      <div class="mt-8 flex justify-between">
+        <img
+          class="h-16 w-auto"
+          ngSrc="assets/brand-logo.webp"
+          alt="SHOWTIME Corp. brand logo"
+          height="128"
+          width="128"
+        />
+        <img
+          class="h-16 w-auto"
+          ngSrc="assets/riwi-logo.webp"
+          alt="Riwi logo"
+          height="128"
+          width="455"
+        />
       </div>
     </div>
   </div>
