@@ -14,10 +14,10 @@
           <span class="text-gray-700">Your professional information</span>
         </div>
         <a class="cursor-pointer rounded p-2 hover:bg-gray-100" routerLink="/edit-profile">
-          <lucide-icon [img]="Edit" class="h-8 w-8 text-gray-700"></lucide-icon>
+          <lucide-icon [img]="SquarePen" class="h-8 w-8 text-gray-700"></lucide-icon>
         </a>
       </div>
-      <div class="flex gap-4 text-gray-700">
+      <div class="flex flex-col gap-4 text-gray-700 sm:flex-row">
         <div class="flex items-center justify-center rounded-lg bg-black p-6 text-center">
           <span class="text-2xl text-gray-200"
             >{{ currentUser()?.firstName | slice: 0 : 1 | uppercase
@@ -25,40 +25,43 @@
           >
         </div>
 
-        <div class="flex flex-col gap-2">
-          <div class="flex items-center gap-2">
-            <lucide-icon [img]="User" class="h-6 w-6 text-gray-700"></lucide-icon>
-            <span class="text-gray-700"
-              >{{ currentUser()?.firstName }}
-              {{ currentUser()?.lastName }}</span
-            >
-          </div>
-          <div class="flex items-center gap-2">
-            <lucide-icon [img]="Mail" class="h-6 w-6"></lucide-icon>
-            <span>{{ currentUser()?.email }}</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <lucide-icon [img]="Crown" class="h-6 w-6"></lucide-icon>
-            <span>{{ currentUser()?.role | titlecase }}</span>
-          </div>
-          @if (userProfile.degree) {
+        <div class="flex flex-col gap-2 sm:flex-row lg:gap-12">
+          <div class="flex flex-col gap-2">
             <div class="flex items-center gap-2">
-              <lucide-icon [img]="Award" class="h-6 w-6"></lucide-icon>
-              <span>{{ userProfile.degree }}</span>
+              <lucide-icon [img]="User" class="h-6 w-6 text-gray-700"></lucide-icon>
+              <span class="text-gray-700"
+                >{{ currentUser()?.firstName }} {{ currentUser()?.lastName }}</span
+              >
             </div>
-          }
-          @if (userProfile.location) {
             <div class="flex items-center gap-2">
-              <lucide-icon [img]="MapPin" class="h-6 w-6"></lucide-icon>
-              <span>{{ userProfile.location }}</span>
+              <lucide-icon [img]="Mail" class="h-6 w-6"></lucide-icon>
+              <span>{{ currentUser()?.email }}</span>
             </div>
-          }
-          @if (userProfile.yearsOfExperience) {
             <div class="flex items-center gap-2">
-              <lucide-icon [img]="Briefcase" class="h-6 w-6"></lucide-icon>
-              <span>{{ userProfile.yearsOfExperience }} years of experience</span>
+              <lucide-icon [img]="Crown" class="h-6 w-6"></lucide-icon>
+              <span>{{ currentUser()?.role | titlecase }}</span>
             </div>
-          }
+          </div>
+          <div class="flex flex-col gap-2">
+            @if (userProfile.degree) {
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="Award" class="h-6 w-6"></lucide-icon>
+                <span>{{ userProfile.degree }}</span>
+              </div>
+            }
+            @if (userProfile.location) {
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="MapPin" class="h-6 w-6"></lucide-icon>
+                <span>{{ userProfile.location }}</span>
+              </div>
+            }
+            @if (userProfile.yearsOfExperience) {
+              <div class="flex items-center gap-2">
+                <lucide-icon [img]="Briefcase" class="h-6 w-6"></lucide-icon>
+                <span>{{ userProfile.yearsOfExperience }} years of experience</span>
+              </div>
+            }
+          </div>
         </div>
       </div>
       @if (userProfile.bio) {
@@ -71,52 +74,91 @@
         <div class="flex flex-col gap-2">
           <h4 class="text-lg font-semibold">Skills</h4>
           <div class="flex flex-wrap gap-2">
-            @for (skill of userProfile.skills.split(','); track skill) {
+            @for (skill of userProfile.skills.skills; track skill) {
               <span class="rounded-full bg-gray-200 px-3 py-1 text-sm">{{ skill.trim() }}</span>
             }
           </div>
         </div>
       }
-      @if (userProfile.experience && userProfile.experience.length > 0) {
-        <div class="flex flex-col gap-2">
-          <h4 class="text-lg font-semibold">Experience</h4>
-          @for (exp of userProfile.experience; track exp) {
-            <div class="ml-4 border-l-2 border-gray-200 pl-4">
-              <p>{{ exp }}</p>
-            </div>
-          }
-        </div>
-      }
-      @if (userProfile.education && userProfile.education.length > 0) {
-        <div class="flex flex-col gap-2">
-          <h4 class="text-lg font-semibold">Education</h4>
-          @for (edu of userProfile.education; track edu) {
-            <div class="ml-4 border-l-2 border-gray-200 pl-4">
-              <p>{{ edu }}</p>
-            </div>
-          }
-        </div>
-      }
+
+      <div class="flex flex-col gap-4 lg:flex-row justify-between">
+        @if (userProfile.experience && userProfile.experience.length > 0) {
+          <div class="flex flex-col gap-4 w-full">
+            <h4 class="text-lg font-semibold">Experience</h4>
+            @for (exp of userProfile.experience; track exp) {
+              <div
+                class="group flex items-center justify-between rounded-xl border-0 p-4 transition-colors hover:bg-gray-100"
+              >
+                <div class="flex w-full items-center gap-4">
+                  <div
+                    class="flex h-16 w-16 items-center justify-center rounded-lg bg-gray-950 transition-colors group-hover:bg-black"
+                  >
+                    <lucide-icon
+                      [img]="Briefcase"
+                      class="stroke-1.5 h-10 w-10 text-gray-200 transition-colors group-hover:text-white"
+                    ></lucide-icon>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xl font-semibold text-gray-700">{{ exp.role }}</span>
+                    <span class="text-sm text-gray-500"
+                      >{{ exp.company }} {{ exp.startDate }} -
+                      {{ exp.endDate || 'Present' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p>No experience added yet.</p>
+        }
+        @if (userProfile.education && userProfile.education.length > 0) {
+          <div class="flex flex-col gap-4 w-full">
+            <h4 class="text-lg font-semibold">Education</h4>
+            @for (edu of userProfile.education; track edu) {
+              <div
+                class="group flex items-center justify-between rounded-xl border-0 p-4 transition-colors hover:bg-gray-100"
+              >
+                <div class="flex w-full items-center gap-4">
+                  <div
+                    class="flex h-16 w-16 items-center justify-center rounded-lg bg-gray-950 transition-colors group-hover:bg-black"
+                  >
+                    <lucide-icon
+                      [img]="School"
+                      class="stroke-1.5 h-10 w-10 text-gray-200 transition-colors group-hover:text-white"
+                    ></lucide-icon>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-xl font-semibold text-gray-700">{{ edu.degree }}</span>
+                    <span class="text-sm text-gray-500"
+                      >{{ edu.institution }} | {{ edu.graduationYear }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p>No education added yet.</p>
+        }
+      </div>
       @if (userProfile.links) {
         <div class="flex flex-col gap-2">
           <h4 class="text-lg font-semibold">Links</h4>
-          <div class="flex gap-4">
-            @for (link of userProfile.links.split(','); track link) {
-              <a [href]="link.trim()" target="_blank" class="flex items-center gap-2 text-blue-600 hover:underline">
-                <lucide-icon [img]="Link" class="h-5 w-5"></lucide-icon>
-                {{ link.trim() }}
-              </a>
+          <div class="flex flex-col gap-2 lg:flex-row">
+            @for (linkEntry of userProfile.links | keyvalue; track linkEntry.key) {
+              @if (linkEntry.value) {
+                <a
+                  [href]="linkEntry.value.trim()"
+                  target="_blank"
+                  class="flex items-center gap-2 text-blue-600 hover:underline"
+                >
+                  <lucide-icon [img]="Link" class="h-5 w-5"></lucide-icon>
+                  {{ linkEntry.key | titlecase }}: {{ linkEntry.value.trim() }}
+                </a>
+              }
             }
           </div>
-        </div>
-      }
-      @if (userProfile.pdf) {
-        <div class="flex flex-col gap-2">
-          <h4 class="text-lg font-semibold">Resume/CV</h4>
-          <a [href]="userProfile.pdf" target="_blank" class="flex items-center gap-2 text-blue-600 hover:underline">
-            <lucide-icon [img]="FileText" class="h-5 w-5"></lucide-icon>
-            View Resume
-          </a>
         </div>
       }
     </div>
