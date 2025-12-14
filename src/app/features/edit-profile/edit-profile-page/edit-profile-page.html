@@ -1,85 +1,29 @@
-<section class="flex flex-col gap-6 py-12">
-  @if (user()) {
-    <div class="page-container px-0">
+<section class="page-container flex flex-col gap-6 py-12">
+  @if (userProfile$ | async; as userProfile) {
+    <div>
       <h1 class="text-2xl font-semibold">
-        Edit {{ user()?.firstName }} {{ user()?.lastName }}'s Profile
+        Edit {{ userProfile.firstName }} {{ userProfile.lastName }}'s Profile
       </h1>
-      <p class="text-gray-700">Here you can update your profile information</p>
+      <p class="text-gray-700">
+        Here you can update your profile information, this information helps us leverage AI to give
+        you the best recommendations, it is important to remind to click the
+        <span class="font-bold">Update button</span> to save your changes.
+      </p>
     </div>
 
-    <div
-      class="page-container flex flex-col gap-6 rounded-xl border border-gray-200 bg-white p-8 shadow-md"
-    >
+    <div class="flex flex-col">
       <form class="flex flex-col gap-4" [formGroup]="updateForm" (ngSubmit)="onSubmitUpdate()">
-        <div class="flex justify-between gap-4">
-          <!-- First Name Field -->
-          <div class="flex w-full flex-col">
-            <label for="firstName" class="mb-2 text-gray-700">First Name</label>
-            <div class="relative">
-              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <lucide-icon [img]="User" class="text-gray-400"></lucide-icon>
-              </div>
-              <input
-                type="text"
-                id="firstName"
-                class="w-full rounded-lg border border-gray-200 px-3 py-3 pl-10 text-gray-700 transition-colors focus:border-gray-800 focus:ring-0 focus:outline-none"
-                placeholder="Please enter a name."
-                formControlName="firstName"
-              />
-            </div>
-            <!-- First Name Validation Error -->
-            <div class="h-5">
-              @if (updateForm.get('firstName')?.invalid && updateForm.get('firstName')?.touched) {
-                <span class="mt-1 text-sm text-red-500">First name is required.</span>
-              }
-            </div>
-          </div>
-          <!-- Last Name Field -->
-          <div class="flex w-full flex-col">
-            <label for="lastName" class="mb-2 text-gray-700">Last Name</label>
-            <div class="relative">
-              <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                <lucide-icon [img]="User" class="text-gray-400"></lucide-icon>
-              </div>
-              <input
-                type="text"
-                id="lastName"
-                class="w-full rounded-lg border border-gray-200 px-3 py-3 pl-10 text-gray-700 transition-colors focus:border-gray-800 focus:ring-0 focus:outline-none"
-                placeholder="Doe"
-                formControlName="lastName"
-              />
-            </div>
-            <!-- Last Name Validation Error -->
-            <div class="h-5">
-              @if (updateForm.get('lastName')?.invalid && updateForm.get('lastName')?.touched) {
-                <span class="mt-1 text-sm text-red-500">Last name is required.</span>
-              }
-            </div>
-          </div>
-        </div>
-        <div>
-          <label for="email" class="mb-2 block text-gray-700">Email Address</label>
-          <div class="relative">
-            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <lucide-icon [img]="Mail" class="text-gray-400"></lucide-icon>
-            </div>
-            <input
-              type="email"
-              id="email"
-              class="w-full rounded-lg border border-gray-200 px-3 py-3 pl-10 text-gray-700 transition-colors focus:border-gray-800 focus:ring-0 focus:outline-none"
-              placeholder="you@example.com"
-              formControlName="email"
-            />
-          </div>
-          <!-- Email Validation Error -->
-          <div class="h-5">
-            @if (updateForm.get('email')?.invalid && updateForm.get('email')?.touched) {
-              <span class="mt-1 text-sm text-red-500">Please enter a valid email.</span>
-            }
-          </div>
-        </div>
+        <app-links [linksForm]="linksForm"></app-links>
+        <app-basic [basicForm]="updateForm"></app-basic>
+        <app-skills [skillsFormArray]="skillsFormArray"></app-skills>
+        <app-education [educationFormArray]="educationFormArray"></app-education>
+        <app-experience [experienceFormArray]="experienceFormArray"></app-experience>
+
         <div class="flex items-center justify-between">
-          <span class="text-gray-700">Please use valid information.</span>
+          <span class="text-gray-700"
+            >Please use valid information, remember this is what AI will use to give you
+            feedback.</span
+          >
           <button
             class="end-0 mt-auto flex h-12 w-32 items-center justify-center gap-2 rounded-lg bg-black text-white transition-all hover:cursor-pointer hover:bg-gray-700"
           >
@@ -90,3 +34,4 @@
     </div>
   }
 </section>
+<app-add-item-modal></app-add-item-modal>

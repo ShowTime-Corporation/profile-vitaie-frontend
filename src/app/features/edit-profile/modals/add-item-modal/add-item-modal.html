@@ -1,0 +1,205 @@
+<!-- Main container for the create item modal -->
+@if (modal.isOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    (dblclick)="modal.close()"
+  >
+    <div
+      class="animate-modal-in relative z-10 w-full max-w-lg transform rounded-xl bg-white p-8 opacity-0 transition-all duration-300 ease-out"
+      (dblclick)="$event.stopPropagation()"
+      [ngClass]="{
+        'translate-y-0 scale-100 opacity-100 duration-300': !modal.isClosing(),
+        '-translate-y-2 scale-85 opacity-0 duration-200': modal.isClosing(),
+      }"
+    >
+      <button
+        class="absolute top-4 right-4 cursor-pointer rounded-full bg-black p-1 text-white transition-colors sm:bg-transparent sm:text-gray-400 sm:hover:text-black"
+        (click)="modal.close()"
+      >
+        <lucide-icon [img]="X" class="h-6 w-6"></lucide-icon>
+      </button>
+
+      <div class="flex flex-col gap-2">
+        <h2 class="text-2xl">
+          {{ modal.itemType() === 'education' ? 'Add Education' : 'Add Experience' }}
+        </h2>
+        <p class="text-gray-700">Fill in the details below to add a new item to your profile.</p>
+      </div>
+
+      <form
+        [formGroup]="modal.itemType() === 'education' ? educationForm : experienceForm"
+        (ngSubmit)="modal.itemType() === 'education' ? onSubmitEducation() : onSubmitExperience()"
+        class="mt-8 flex flex-col gap-4"
+      >
+        @if (modal.itemType() === 'education') {
+          <div class="flex flex-col gap-4">
+            <div>
+              <label for="degree" class="mb-2 block text-gray-700">Degree</label>
+              <input
+                id="degree"
+                formControlName="degree"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="e.g. Bachelor of Science"
+              />
+              <div class="h-5">
+                @if (educationForm.get('degree')?.invalid && educationForm.get('degree')?.touched) {
+                  <span class="mt-1 text-sm text-red-500">Degree is required.</span>
+                }
+              </div>
+            </div>
+            <div>
+              <label for="institution" class="mb-2 block text-gray-700">Institution</label>
+              <input
+                id="institution"
+                formControlName="institution"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="e.g. University of Example"
+              />
+              <div class="h-5">
+                @if (
+                  educationForm.get('institution')?.invalid &&
+                  educationForm.get('institution')?.touched
+                ) {
+                  <span class="mt-1 text-sm text-red-500">Institution is required.</span>
+                }
+              </div>
+            </div>
+            <div>
+              <label for="graduationYear" class="mb-2 block text-gray-700">Graduation Year</label>
+              <input
+                id="graduationYear"
+                formControlName="graduationYear"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="e.g. 2024"
+              />
+              <div class="h-5">
+                @if (
+                  educationForm.get('graduationYear')?.invalid &&
+                  educationForm.get('graduationYear')?.touched
+                ) {
+                  <span class="mt-1 text-sm text-red-500">Graduation year is required.</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+        @if (modal.itemType() === 'experience') {
+          <div class="flex flex-col gap-4">
+            <div>
+              <label for="role" class="mb-2 block text-gray-700">Role</label>
+              <input
+                id="Role"
+                formControlName="role"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="e.g. Software Engineer"
+              />
+              <div class="h-5">
+                @if (experienceForm.get('role')?.invalid && experienceForm.get('role')?.touched) {
+                  <span class="mt-1 text-sm text-red-500">Role is required.</span>
+                }
+              </div>
+            </div>
+            <div>
+              <label for="company" class="mb-2 block text-gray-700">Company</label>
+              <input
+                id="company"
+                formControlName="company"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="e.g. Tech Corp"
+              />
+              <div class="h-5">
+                @if (
+                  experienceForm.get('company')?.invalid && experienceForm.get('company')?.touched
+                ) {
+                  <span class="mt-1 text-sm text-red-500">Company is required.</span>
+                }
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-1/2">
+                <label for="startDate" class="mb-2 block text-gray-700">Start Date</label>
+                <input
+                  id="startDate"
+                  type="month"
+                  formControlName="startDate"
+                  class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                />
+                <div class="h-5 overflow-visible">
+                  @if (
+                    experienceForm.get('startDate')?.invalid &&
+                    experienceForm.get('startDate')?.touched
+                  ) {
+                    <span class="mt-1 text-sm text-red-500">Start date is required.</span>
+                  } @else if (
+                    experienceForm.errors?.['dateRange'] &&
+                    (experienceForm.get('startDate')?.dirty || experienceForm.get('endDate')?.dirty)
+                  ) {
+                    <span class="mt-1 text-sm whitespace-nowrap text-red-500"
+                      >Start date cannot be after end date.</span
+                    >
+                  }
+                </div>
+              </div>
+              <div class="w-1/2">
+                <label for="endDate" class="mb-2 block text-gray-700">End Date</label>
+                <input
+                  id="endDate"
+                  type="month"
+                  formControlName="endDate"
+                  class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                />
+                <div class="h-5">
+                  @if (
+                    experienceForm.get('endDate')?.invalid && experienceForm.get('endDate')?.touched
+                  ) {
+                    <span class="mt-1 text-sm text-red-500">End date is required.</span>
+                  } @else {
+                    <span class="mt-1 text-sm text-gray-500">Empty for current job</span>
+                  }
+                </div>
+              </div>
+            </div>
+            <div>
+              <label for="description" class="mb-2 block text-gray-700">Description</label>
+              <textarea
+                id="description"
+                formControlName="description"
+                rows="3"
+                class="w-full rounded-lg border border-gray-200 px-3 py-3 text-gray-700 transition-colors focus:border-gray-800 focus:outline-none"
+                placeholder="Describe your role and responsibilities"
+              ></textarea>
+              <div class="h-5">
+                @if (
+                  experienceForm.get('description')?.invalid &&
+                  experienceForm.get('description')?.touched
+                ) {
+                  <span class="mt-1 text-sm text-red-500">Description is required.</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+        <div class="flex items-center justify-end gap-4">
+          <button
+            type="button"
+            (click)="modal.close()"
+            class="rounded-lg px-6 py-3 text-gray-700 transition-colors hover:cursor-pointer hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="group flex h-12 items-center justify-center gap-2 rounded-lg bg-black px-6 text-white transition-colors hover:cursor-pointer hover:bg-gray-800"
+          >
+            <span>Save</span>
+
+            <lucide-icon
+              [img]="ArrowRight"
+              class="size-6 transform transition-transform duration-200 group-hover:translate-x-0.5"
+            ></lucide-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

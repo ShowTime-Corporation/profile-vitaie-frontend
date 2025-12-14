@@ -1,3 +1,6 @@
+import { ExperienceItem } from '../../features/edit-profile/interfaces/experience-item';
+import { EducationItem } from '../../features/edit-profile/interfaces/education-item';
+
 export interface UserProfile {
   id: number;
   firstName: string;
@@ -7,9 +10,12 @@ export interface UserProfile {
   location: string;
   yearsOfExperience: number;
   bio: string;
-  skills: string[];
-  experience: string[];
-  education: string[];
-  links: string;
-  pdf: string;
+  skills: { skills: string[] };
+  experience: ExperienceItem[];
+  education: EducationItem[];
+  links?: {
+    github?: string;
+    portfolio?: string;
+    cv?: string;
+  };
 }
