@@ -9,9 +9,12 @@ import { NgClass } from '@angular/common';
   templateUrl: './toast-modal.html',
 })
 export class ToastModal {
-
-  // Injects service
+  // Inject service
   protected toastService = inject(ToastService);
+
+  // Lucide icons
+  protected readonly Check = Check;
+  protected readonly X = X;
 
   // Animation state
   protected visible = signal(false);
@@ -26,7 +29,6 @@ export class ToastModal {
 
         // Stay visible until
         setTimeout(() => {
-
           // Exit
           this.visible.set(false);
 
@@ -36,8 +38,4 @@ export class ToastModal {
       }
     });
   }
-
-  // Lucide icons
-  protected readonly Check = Check;
-  protected readonly X = X;
 }

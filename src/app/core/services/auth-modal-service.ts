@@ -9,12 +9,10 @@ export class AuthModalService {
   private _isOpen = signal(false);
   private _isClosing = signal(false);
 
-
   // Exposing the state as read-only signals
   isOpen = this._isOpen.asReadonly();
   isLogin = this._isLogin.asReadonly();
   isClosing = this._isClosing.asReadonly();
-
 
   // Methods to interact with the modal state
   openLoginModal() {

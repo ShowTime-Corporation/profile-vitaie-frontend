@@ -1,0 +1,58 @@
+<div class="page-container flex flex-col rounded-xl border border-gray-200 bg-white p-8 shadow">
+  <div class="flex items-center justify-between">
+    <h3 class="text-xl text-gray-700">Experience</h3>
+    <button
+      type="button"
+      (click)="openAddItemModal()"
+      class="flex cursor-pointer items-center gap-2 rounded-lg bg-gray-800 px-4 py-3 text-white transition-all hover:bg-gray-700"
+    >
+      <lucide-icon [img]="Plus" class="h-6 w-6"></lucide-icon>
+      <span>Add</span>
+    </button>
+  </div>
+  @if (experienceFormArray.controls.length > 0) {
+    <hr class="my-2 border-gray-200" />
+    <div class="mt-6 flex flex-col gap-4">
+      @for (item of experienceFormArray.controls; track $index) {
+        <div
+          [formGroup]="item"
+          class="flex items-center justify-between rounded-xl border-0 p-4 transition-colors hover:cursor-pointer hover:bg-gray-100"
+        >
+          <div class="flex w-full items-center gap-4">
+            <div class="flex h-16 w-16 items-center justify-center rounded-lg bg-gray-950">
+              <lucide-icon
+                [img]="Briefcase"
+                class="stroke-1.5 h-10 w-10 text-gray-200"
+              ></lucide-icon>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-xl font-semibold text-gray-700">{{ item.get('role')?.value }}</span>
+              <span class="text-sm text-gray-500"
+                >{{ item.get('company')?.value }} {{ item.get('startDate')?.value }} -
+                {{ item.get('endDate')?.value || 'Present' }}
+              </span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              type="button"
+              class="flex items-center justify-center rounded-md p-2 transition-colors hover:cursor-pointer hover:bg-gray-200"
+              (click)="editExperienceItem(item, $index)"
+            >
+              <lucide-icon [img]="SquarePen" class="h-7 w-7 text-gray-700"></lucide-icon>
+            </button>
+            <button
+              type="button"
+              class="flex items-center justify-center rounded-md p-2 transition-colors hover:cursor-pointer hover:bg-gray-200"
+              (click)="deleteExperienceItem($index)"
+            >
+              <lucide-icon [img]="Trash" class="h-7 w-7 text-gray-700"></lucide-icon>
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <p class="text-gray-600">No experience added yet.</p>
+  }
+</div>

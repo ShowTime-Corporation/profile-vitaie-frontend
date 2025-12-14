@@ -1,9 +1,9 @@
-@import "tailwindcss";
-@plugin "@tailwindcss/forms";
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
 
 @layer components {
   .page-container {
-    @apply w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12;
   }
 
   .section-stack {
@@ -11,7 +11,7 @@
   }
 
   .section-divider {
-    @apply w-full border-b border-black/10 border-[0.5px] sm:border-[1px];
+    @apply w-full border-[0.5px] border-b border-black/10 sm:border-[1px];
   }
 
   @keyframes modal-in {

@@ -8,17 +8,12 @@
   >
     <!-- The main content of the modal -->
     <div
-      class="
-    w-full relative z-10 flex max-w-md flex-col justify-between
-    rounded-xl bg-white p-8
-    transform transition-all duration-300 ease-out opacity-0
-    animate-modal-in
-  "
+      class="animate-modal-in relative z-10 flex w-full max-w-lg transform flex-col justify-between rounded-xl bg-white p-8 opacity-0 transition-all duration-300 ease-out"
       (dblclick)="$event.stopPropagation()"
       [ngClass]="{
-        'scale-100 opacity-100 duration-300 translate-y-0': !modal.isClosing(),
-        'scale-85 opacity-0 duration-200 -translate-y-2': modal.isClosing(),
-        }"
+        'translate-y-0 scale-100 opacity-100 duration-300': !modal.isClosing(),
+        '-translate-y-2 scale-85 opacity-0 duration-200': modal.isClosing(),
+      }"
     >
       <!-- Button to close the modal. -->
       <button
