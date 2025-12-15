@@ -1,23 +1,25 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../../../core/services/auth-service';
 import {
   Award,
   Briefcase,
   Crown,
-  FileText,
-  Link,
   LucideAngularModule,
   Mail,
   MapPin,
   User,
   SquarePen,
   School,
+  ArrowRight,
 } from 'lucide-angular';
-import { AsyncPipe, KeyValuePipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { UserProfile } from '../../../core/interfaces/user-profile';
 import { ProfileService } from '../../../core/services/profile-service';
 import { RouterLink } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CvModalService } from '../../../core/services/cv-modal-service';
+import { CvModal } from '../../../core/layout/modals/cv-modal/cv-modal';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -28,21 +30,17 @@ import { RouterLink } from '@angular/router';
     TitleCasePipe,
     AsyncPipe,
     RouterLink,
-    KeyValuePipe,
+    ReactiveFormsModule,
+    CvModal,
   ],
   templateUrl: './dashboard-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage implements OnInit {
   // Inject services
   authService = inject(AuthService);
   profileService = inject(ProfileService);
-
-  // Lucid icons
-  protected readonly screen = screen;
-
-  // Get current user
-  currentUser = this.authService.currentUser;
-  userProfile$!: Observable<UserProfile>;
+  cvModalService = inject(CvModalService);
 
   // Lucide icons
   protected readonly SquarePen = SquarePen;
@@ -52,12 +50,20 @@ export class DashboardPage implements OnInit {
   protected readonly Award = Award;
   protected readonly MapPin = MapPin;
   protected readonly Briefcase = Briefcase;
-  protected readonly Link = Link;
-  protected readonly FileText = FileText;
   protected readonly School = School;
+  protected readonly ArrowRight = ArrowRight;
+
+  // Get current user
+  currentUser = this.authService.currentUser;
+  userProfile$!: Observable<UserProfile>;
 
   // On init load user details
   ngOnInit(): void {
     this.userProfile$ = this.profileService.getUserProfile();
+  }
+
+  // Open CV modal
+  openCvModal() {
+    this.cvModalService.open();
   }
 }
