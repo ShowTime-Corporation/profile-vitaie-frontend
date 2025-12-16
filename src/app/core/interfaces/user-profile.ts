@@ -13,5 +13,4 @@ export interface UserProfile {
   skills: { skills: string[] };
   experience: ExperienceItem[];
   education: EducationItem[];
-  userPdf: string;
 }

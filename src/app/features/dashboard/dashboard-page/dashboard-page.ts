@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/auth-service';
 import {
   Award,
@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from 'lucide-angular';
 import { AsyncPipe, SlicePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { finalize, Observable } from 'rxjs';
 import { UserProfile } from '../../../core/interfaces/user-profile';
 import { ProfileService } from '../../../core/services/profile-service';
 import { RouterLink } from '@angular/router';
@@ -56,10 +56,16 @@ export class DashboardPage implements OnInit {
   // Get current user
   currentUser = this.authService.currentUser;
   userProfile$!: Observable<UserProfile>;
+  // Loading state as a signal for local state management
+  isLoading = signal(true);
 
   // On init load user details
   ngOnInit(): void {
-    this.userProfile$ = this.profileService.getUserProfile();
+    this.userProfile$ = this.profileService.getUserProfile().pipe(
+      finalize(() => {
+        this.isLoading.set(false);
+      }),
+    );
   }
 
   // Open CV modal

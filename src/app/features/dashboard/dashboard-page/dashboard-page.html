@@ -1,8 +1,23 @@
-<section class="page-container flex flex-col gap-6 bg-gradient-to-b from-gray-50 to-gray-100 py-12">
+<section class="page-container flex flex-col gap-6 py-12">
+  @if (isLoading()) {
+    <div
+      class="flex w-full items-center justify-center py-20"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-4 border-gray-300 border-t-black"
+        aria-hidden="true"
+      ></div>
+      <span class="sr-only">Loading dashboard</span>
+    </div>
+
+  }
   @if (userProfile$ | async; as userProfile) {
     <div class="text-center md:text-left">
       <h1 class="text-2xl font-semibold">
-        Welcome, {{ userProfile.firstName }} {{ userProfile.lastName }}
+        Welcome,
       </h1>
       <p class="text-gray-700">Here's your professional growth overview</p>
     </div>

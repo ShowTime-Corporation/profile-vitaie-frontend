@@ -1,7 +1,7 @@
 export interface Employability {
   employabilityId: number;
   userId: number;
-  employabilityTechOffer: string;
-  employabilityEducationOffer: string;
-  employabilityCompanyOffer: string;
+  techOffer: string;
+  educationOffer: string;
+  companyOffer: string;
 }

@@ -1,8 +1,7 @@
 export interface Roadmap {
-  roadmapId: number;
-  userId: number;
-  roadAnalysis: string;
-  roadProposal: string;
-  roadIdeas: string;
-  roadKeep: string;
+  id: number;
+  analysis: string;
+  proposal: string;
+  ideas: string;
+  keep: string;
 }

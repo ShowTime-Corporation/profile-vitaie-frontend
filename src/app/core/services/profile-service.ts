@@ -9,7 +9,7 @@ import { UserProfileRequestDTO } from '../../features/edit-profile/interfaces/us
 })
 export class ProfileService {
   // Define api url
-  private apiUrl = 'https://profile-vitaie-backend-130193814024.us-central1.run.app/user/me';
+  private apiUrl = 'http://localhost:8080/user/me';
 
   // Inject http service
   private http = inject(HttpClient);

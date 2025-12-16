@@ -13,8 +13,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   // The base URL of the backend server.
-  private readonly BASE_URL =
-    'https://profile-vitaie-backend-130193814024.us-central1.run.app/auth';
+  private readonly BASE_URL = 'http://localhost:8080/auth';
   private readonly LOGIN_URL = `${this.BASE_URL}/login`;
   private readonly REGISTER_URL = `${this.BASE_URL}/register`;
   private readonly TOKEN_KEY = 'jwt_token';
@@ -78,7 +77,7 @@ export class AuthService {
     return !!token;
   }
 
-  //Removes the token and logs the user out.
+  // Removes the token and logs the user out.
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);

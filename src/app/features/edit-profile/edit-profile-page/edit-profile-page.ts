@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
 import { ProfileService } from '../../../core/services/profile-service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UserProfile } from '../../../core/interfaces/user-profile';
 import { Basic } from '../sections/basic/basic';
 import { Skills } from '../sections/skills/skills';
@@ -56,45 +56,47 @@ export class EditProfilePage implements OnInit {
   // Lifecycle hook that has initialized all data-bound properties
   ngOnInit(): void {
     // Get user profile data
-    this.userProfile$ = this.profileService.getUserProfile();
+    this.userProfile$ = this.profileService.getUserProfile().pipe(
+      tap((profile) => {
+        if (profile) {
+          console.log('User profile received:', profile);
 
-    // Subscribe to user profile changes
-    this.userProfile$.subscribe((profile) => {
-      if (profile) {
-        // Patch the main form with basic profile information
-        this.updateForm.patchValue({
-          firstName: profile.firstName,
-          lastName: profile.lastName,
-          degree: profile.degree,
-          location: profile.location,
-          yearsOfExperience: profile.yearsOfExperience,
-          bio: profile.bio,
-        });
-        // Clear existing skills and add new ones from the profile
-        this.skillsFormArray.clear();
-        if (profile.skills) {
-          profile.skills.skills.forEach((skill) =>
-            this.skillsFormArray.push(this.fb.control(skill)),
-          );
-        }
+          // Patch the main form with basic profile information
+          this.updateForm.patchValue({
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            degree: profile.degree,
+            location: profile.location,
+            yearsOfExperience: profile.yearsOfExperience,
+            bio: profile.bio,
+          });
 
-        // Clear existing education items and add new ones from the profile
-        this.educationFormArray.clear();
-        if (profile.education) {
-          profile.education.forEach((item) =>
-            this.educationFormArray.push(this.createEducationFormGroup(item)),
-          );
-        }
+          // Clear existing skills and add new ones from the profile
+          this.skillsFormArray.clear();
+          if (profile.skills) {
+            profile.skills.skills.forEach((skill) =>
+              this.skillsFormArray.push(this.fb.control(skill)),
+            );
+          }
 
-        // Clear existing experience items and add new ones from the profile
-        this.experienceFormArray.clear();
-        if (profile.experience) {
-          profile.experience.forEach((item) =>
-            this.experienceFormArray.push(this.createExperienceFormGroup(item)),
-          );
+          // Clear existing education items and add new ones from the profile
+          this.educationFormArray.clear();
+          if (profile.education) {
+            profile.education.forEach((item) =>
+              this.educationFormArray.push(this.createEducationFormGroup(item)),
+            );
+          }
+
+          // Clear existing experience items and add new ones from the profile
+          this.experienceFormArray.clear();
+          if (profile.experience) {
+            profile.experience.forEach((item) =>
+              this.experienceFormArray.push(this.createExperienceFormGroup(item)),
+            );
+          }
         }
-      }
-    });
+      }),
+    );
 
     // Subscribe to new education items from the modal service
     this.addItemModal.educationItem$.subscribe((item: EducationItem) => {

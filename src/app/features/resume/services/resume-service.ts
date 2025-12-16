@@ -8,7 +8,7 @@ import { Resume } from '../interfaces/resume';
 })
 export class ResumeService {
   // Api Url
-  private baseUrl = 'https://profile-vitaie-backend-130193814024.us-central1.run.app/user';
+  private baseUrl = 'http://localhost:8080/user';
 
   // Inject service
   http = inject(HttpClient);
