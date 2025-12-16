@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Roadmap } from '../interfaces/roadmap';
@@ -7,11 +7,14 @@ import { Roadmap } from '../interfaces/roadmap';
   providedIn: 'root',
 })
 export class RoadmapService {
-  private baseUrl = 'http://localhost:8080/roadmap';
+  // Api Url
+  private baseUrl = 'https://profile-vitaie-backend-130193814024.us-central1.run.app/user';
 
-  constructor(private http: HttpClient) {}
+  // Inject service
+  http = inject(HttpClient);
 
-  getRoadmapByUserId(userId: number): Observable<Roadmap> {
-    return this.http.get<Roadmap>(`${this.baseUrl}/user/${userId}`);
+  // Fetch roadmap data
+  getRoadmap(): Observable<Roadmap> {
+    return this.http.get<Roadmap>(`${this.baseUrl}/roadmap`);
   }
 }

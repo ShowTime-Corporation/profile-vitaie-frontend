@@ -3,6 +3,7 @@ import { ContentCard } from '../../components/content-card/content-card';
 import { AuthService } from '../../../core/services/auth-service';
 import { ResumeService } from '../services/resume-service';
 import { Resume } from '../interfaces/resume';
+import { ToastService } from '../../../core/services/toast-service';
 
 @Component({
   selector: 'app-resume-page',
@@ -13,6 +14,7 @@ export class ResumePage {
   // Inject services
   authService = inject(AuthService);
   resumeService = inject(ResumeService);
+  toastService = inject(ToastService);
 
   // Get logged user
   user = this.authService.currentUser;
@@ -22,9 +24,13 @@ export class ResumePage {
 
   // Fetch resume data
   ngOnInit() {
-    const userId = this.authService.currentUser()?.id;
-    this.resumeService.getResumeByUserId(userId!).subscribe((r) => {
-      this.resume = r;
+    this.resumeService.getResume().subscribe({
+      next: (r) => {
+        this.resume = r;
+      },
+      error: () => {
+        this.toastService.show('Resume data not found.', 'error');
+      },
     });
   }
 }

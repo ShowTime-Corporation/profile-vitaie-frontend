@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ContentCard } from '../../components/content-card/content-card';
 import { AuthService } from '../../../core/services/auth-service';
-import { Resume } from '../../resume/interfaces/resume';
 import { EmployabilityService } from '../services/employability-service';
 import { Employability } from '../interfaces/employability';
+import { ToastService } from '../../../core/services/toast-service';
 
 @Component({
   selector: 'app-employability-page',
@@ -14,6 +14,7 @@ export class EmployabilityPage {
   // Inject services
   authService = inject(AuthService);
   employabilityService = inject(EmployabilityService);
+  toastService = inject(ToastService);
 
   // Get logged user
   user = this.authService.currentUser;
@@ -23,9 +24,13 @@ export class EmployabilityPage {
 
   // Fetch resume data
   ngOnInit() {
-    const userId = this.authService.currentUser()?.id;
-    this.employabilityService.getEmployabilityByUserId(userId!).subscribe((r) => {
-      this.employability = r;
+    this.employabilityService.getEmployability().subscribe({
+      next: (r) => {
+        this.employability = r;
+      },
+      error: () => {
+        this.toastService.show('Employability data not found.', 'error');
+      },
     });
   }
 }
