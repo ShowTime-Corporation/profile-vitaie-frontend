@@ -1,0 +1,146 @@
+@if (cvModalService.isOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+    (click)="close()"
+  >
+    <div
+      class="animate-modal-in relative z-10 w-full max-w-3xl transform rounded-xl bg-white p-8 opacity-0 shadow-lg transition-all duration-300 ease-out"
+      (click)="$event.stopPropagation()"
+      [ngClass]="{
+        'translate-y-0 scale-100 opacity-100 duration-300': !cvModalService.isClosing(),
+        '-translate-y-2 scale-85 opacity-0 duration-200': cvModalService.isClosing(),
+      }"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold">Upload CV</h2>
+          <p>Please use the correct cv format.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            class="cursor-pointer rounded-full bg-black p-1 text-white transition-colors sm:bg-transparent sm:text-gray-400 sm:hover:text-black"
+            (click)="close()"
+          >
+            <lucide-icon [img]="X" class="h-6 w-6"></lucide-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="mt-6">
+        <div class="flex-col md:flex-row gap-6 md:justify-between hidden lg:flex">
+          <div>
+            <h3 class="text-xl font-bold">Bad example</h3>
+            <img
+              class="h-128 w-auto"
+              ngSrc="assets/bad-example.png"
+              alt="Bad Example"
+              height="1006"
+              width="716"
+            />
+          </div>
+          <div>
+            <h3 class="text-xl font-bold">Correct example</h3>
+            <img
+              class="h-128 w-auto"
+              ngSrc="assets/correct-example.png"
+              alt="Correct example"
+              height="1006"
+              width="716"
+            />
+          </div>
+        </div>
+        <span>To download a good cv template,         <a
+          href="assets/Formato_CV_Coders_Riwi.docx"
+          download
+          class="text-blue-800 hover:underline"
+        >
+          click here.
+        </a></span>
+
+        <!-- Upload Mode -->
+        <div class="flex flex-col gap-4 mt-6" [formGroup]="uploadCvForm">
+          <!-- File upload section -->
+          <div>
+            <label class="mb-2 text-gray-700 font-bold">CV/Resume</label>
+            <div class="mt-2 flex w-full items-center justify-center">
+              @if (!fileName()) {
+                <label
+                  for="dropzone-file"
+                  class="flex h-24 w-full cursor-pointer flex-col items-center justify-center rounded-xl border border-gray-200 bg-white hover:bg-gray-50"
+                >
+                  <div class="flex items-center justify-center gap-2 py-6">
+                    <lucide-icon [img]="Upload"></lucide-icon>
+                    <div class="flex flex-col items-center">
+                      <p class="text-sm text-gray-500">
+                        <span class="font-semibold">Click to upload</span> or drag and drop
+                      </p>
+                      <p class="text-xs text-gray-500">PDF (MAX. 10MB)</p>
+                    </div>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    accept="application/pdf"
+                    class="hidden"
+                    (change)="onFileSelected($event)"
+                  />
+                </label>
+              } @else {
+                <div
+                  class="flex flex-col lg:flex-row h-32 lg:h-24 w-full items-center justify-center gap-4 lg:justify-between rounded-xl border border-gray-200 bg-white px-4"
+                >
+                  <div class="flex items-center gap-2">
+                    <lucide-icon [img]="Link" class="text-gray-400"></lucide-icon>
+                    <span class="text-sm text-gray-700">{{ fileName() }}</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+
+                    <button
+                      (click)="uploadCv()"
+                      [disabled]="isUploading()"
+                      class="group ml-2 flex h-12 items-center justify-center gap-2 rounded-lg bg-black px-6 text-white transition-colors hover:cursor-pointer hover:bg-gray-800 disabled:opacity-60"
+                      type="button"
+                    >
+                      @if (isUploading()) {
+                        <span>Uploading...</span>
+                      } @else {
+                        <span>Upload and generate</span>
+                        <lucide-icon
+                          [img]="Upload"
+                          class="size-6 transition-transform duration-200 group-hover:-translate-y-0.5"
+                        ></lucide-icon>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="flex items-center justify-center rounded-md p-2 transition-colors hover:cursor-pointer hover:bg-gray-200"
+                      (click)="removeFile()"
+                      aria-label="Remove selected file"
+                    >
+                      <lucide-icon [img]="Trash" class="h-7 w-7 text-gray-700"></lucide-icon>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+            <!-- Validation errors -->
+            <div class="h-5">
+              @if (
+                uploadCvForm.get('cv')?.hasError('invalidFileType') &&
+                uploadCvForm.get('cv')?.touched
+              ) {
+                <span class="mt-1 text-sm text-red-500">Only PDF files are allowed.</span>
+              } @else if (
+                uploadCvForm.get('cv')?.hasError('fileTooLarge') && uploadCvForm.get('cv')?.touched
+              ) {
+                <span class="mt-1 text-sm text-red-500">File is too large. Max size is 10MB.</span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

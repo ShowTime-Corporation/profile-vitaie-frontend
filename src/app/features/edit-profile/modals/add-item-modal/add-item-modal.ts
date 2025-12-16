@@ -53,8 +53,11 @@ export class AddItemModal {
     {
       role: ['', Validators.required],
       company: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: [''],
+      startDate: [
+        '',
+        [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())],
+      ],
+      endDate: ['', [Validators.min(1900), Validators.max(new Date().getFullYear())]],
       description: ['', Validators.required],
     },
     { validators: dateRangeValidator },

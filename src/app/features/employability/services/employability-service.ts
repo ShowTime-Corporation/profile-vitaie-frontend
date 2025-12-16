@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employability } from '../interfaces/employability';
@@ -7,11 +7,14 @@ import { Employability } from '../interfaces/employability';
   providedIn: 'root',
 })
 export class EmployabilityService {
-  private baseUrl = 'http://localhost:8080/employability';
+  // Api Url
+  private baseUrl = 'https://profile-vitaie-backend-130193814024.us-central1.run.app/user';
 
-  constructor(private http: HttpClient) {}
+  // Inject service
+  http = inject(HttpClient);
 
-  getEmployabilityByUserId(userId: number): Observable<Employability> {
-    return this.http.get<Employability>(`${this.baseUrl}/user/${userId}`);
+  // Fetch employability data
+  getEmployability(): Observable<Employability> {
+    return this.http.get<Employability>(`${this.baseUrl}/employability`);
   }
 }

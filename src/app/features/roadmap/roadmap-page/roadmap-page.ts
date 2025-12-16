@@ -3,6 +3,7 @@ import { AuthService } from '../../../core/services/auth-service';
 import { RoadmapService } from '../services/roadmap-service';
 import { Roadmap } from '../interfaces/roadmap';
 import { ContentCard } from '../../components/content-card/content-card';
+import { ToastService } from '../../../core/services/toast-service';
 
 @Component({
   selector: 'app-roadmap-page',
@@ -13,6 +14,7 @@ export class RoadmapPage {
   // Inject services
   authService = inject(AuthService);
   roadmapService = inject(RoadmapService);
+  toastService = inject(ToastService);
 
   // Get logged user
   user = this.authService.currentUser;
@@ -22,9 +24,13 @@ export class RoadmapPage {
 
   // Fetch roadmap data
   ngOnInit() {
-    const userId = this.authService.currentUser()?.id;
-    this.roadmapService.getRoadmapByUserId(userId!).subscribe((r) => {
-      this.roadmap = r;
+    this.roadmapService.getRoadmap().subscribe({
+      next: (r) => {
+        this.roadmap = r;
+      },
+      error: () => {
+        this.toastService.show('Roadmap data not found.', 'error');
+      },
     });
   }
 }

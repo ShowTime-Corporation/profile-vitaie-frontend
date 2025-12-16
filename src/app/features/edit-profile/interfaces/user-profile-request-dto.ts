@@ -1,6 +1,5 @@
 import { EducationItem } from './education-item';
 import { ExperienceItem } from './experience-item';
-import { UserLinks } from './user-links';
 import { UserSkillsDTO } from './user-skills-dto';
 
 export interface UserProfileRequestDTO {
@@ -13,5 +12,4 @@ export interface UserProfileRequestDTO {
   skills: UserSkillsDTO;
   experience: ExperienceItem[];
   education: EducationItem[];
-  links: UserLinks;
 }

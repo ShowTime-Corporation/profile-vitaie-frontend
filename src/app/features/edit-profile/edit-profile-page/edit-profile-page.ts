@@ -8,7 +8,6 @@ import { Basic } from '../sections/basic/basic';
 import { Skills } from '../sections/skills/skills';
 import { Experience } from '../sections/experience/experience';
 import { Education } from '../sections/education/education';
-import { Links } from '../sections/links/links';
 import { AsyncPipe } from '@angular/common';
 import { AddItemModalService } from '../services/add-item-modal.service';
 import { EducationItem } from '../interfaces/education-item';
@@ -26,7 +25,6 @@ import { AddItemModal } from '../modals/add-item-modal/add-item-modal';
     Skills,
     Experience,
     Education,
-    Links,
     AsyncPipe,
     AddItemModal,
   ],
@@ -46,32 +44,13 @@ export class EditProfilePage implements OnInit {
   updateForm = this.fb.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    degree: ['', Validators.required],
-    location: ['', Validators.required],
-    yearsOfExperience: [0, [Validators.required, Validators.min(0)]],
-    bio: ['', Validators.required],
+    degree: [''],
+    location: [''],
+    yearsOfExperience: [0, [Validators.min(0), Validators.max(50)]],
+    bio: [''],
     skills: this.fb.array([]),
     education: this.fb.array([]),
     experience: this.fb.array([]),
-    links: this.fb.group({
-      github: [
-        '',
-        [Validators.pattern('^(https?:\\/\\/)?(www\\.)?github\\.com\\/[a-zA-Z0-9_-]+$')],
-      ],
-      portfolio: [
-        '',
-        [Validators.pattern('^(https?:\\/\\/)?(www\\.)?[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}(\\/\\S*)?$')],
-      ],
-      linkedin: [
-        '',
-        [
-          Validators.pattern(
-            '^(https?:\\/\\/)?(www\\.)?linkedin\\.com\\/(in|pub)\\/[a-zA-Z0-9_-]+(\\/)?$',
-          ),
-        ],
-      ],
-      cv: [null as File | null],
-    }),
   });
 
   // Lifecycle hook that has initialized all data-bound properties
@@ -97,13 +76,6 @@ export class EditProfilePage implements OnInit {
           profile.skills.skills.forEach((skill) =>
             this.skillsFormArray.push(this.fb.control(skill)),
           );
-        }
-        // Patch links form group if data exists
-        if (profile.links) {
-          this.linksForm.patchValue({
-            github: profile.links.github,
-            portfolio: profile.links.portfolio,
-          });
         }
 
         // Clear existing education items and add new ones from the profile
@@ -163,8 +135,11 @@ export class EditProfilePage implements OnInit {
     return this.fb.group({
       role: [item.role, Validators.required],
       company: [item.company, Validators.required],
-      startDate: [item.startDate, Validators.required],
-      endDate: [item.endDate, Validators.required],
+      startDate: [
+        item.startDate,
+        [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())],
+      ],
+      endDate: [item.endDate, [Validators.min(1900), Validators.max(new Date().getFullYear())]],
       description: [item.description, Validators.required],
     });
   }
@@ -184,11 +159,6 @@ export class EditProfilePage implements OnInit {
     return this.updateForm.get('experience') as FormArray;
   }
 
-  // Getter for the links FormGroup
-  get linksForm() {
-    return this.updateForm.get('links') as FormGroup;
-  }
-
   // Handles the form submission for updating the profile
   onSubmitUpdate() {
     // Check if the form is invalid
@@ -200,9 +170,6 @@ export class EditProfilePage implements OnInit {
 
     // Get the raw form values
     const formValue = this.updateForm.getRawValue();
-
-    // Extract CV file and remove it from links payload
-    const cvFile: File | null = formValue.links.cv ?? null;
 
     // Construct the payload for the profile update request
     const payload: UserProfileRequestDTO = {
@@ -229,12 +196,6 @@ export class EditProfilePage implements OnInit {
         institution: item.institution,
         graduationYear: item.graduationYear,
       })),
-      // Map links FormGroup values to the DTO format
-      links: {
-        github: formValue.links.github ?? null,
-        portfolio: formValue.links.portfolio ?? null,
-        linkedin: formValue.links.linkedin ?? null,
-      },
     };
 
     // Call the profile service to update profile data
@@ -242,25 +203,10 @@ export class EditProfilePage implements OnInit {
       next: () => {
         // Show success toast message
         this.toastService.show('Profile updated successfully', 'success');
-        // Upload CV only if present
-        if (cvFile) {
-          const formData = new FormData();
-          formData.append('file', cvFile);
-
-          // Call the profile service to upload the CV
-          this.profileService.uploadCv(formData).subscribe({
-            next: () => {
-              // Handle success
-            },
-            error: (err) => {
-              console.error('Error uploading CV', err);
-              // Handle error
-            },
-          });
-        }
       },
       error: (err) => {
-        console.error('Error updating profile', err);
+        // Handle error
+        this.toastService.show('Error updating profile' + err, 'error');
       },
     });
   }

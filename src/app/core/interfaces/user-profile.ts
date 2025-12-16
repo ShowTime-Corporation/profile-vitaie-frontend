@@ -13,9 +13,5 @@ export interface UserProfile {
   skills: { skills: string[] };
   experience: ExperienceItem[];
   education: EducationItem[];
-  links?: {
-    github?: string;
-    portfolio?: string;
-    cv?: string;
-  };
+  userPdf: string;
 }
